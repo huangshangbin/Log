@@ -23,7 +23,7 @@ using namespace std;
 deque<string> fileStrList = LogStringUtils::splitString(__FILE__, "\\");\
 string fileFunStr = "[" + fileStrList[fileStrList.size() - 1] + "][" + string(__func__);\
 fileFunStr = fileFunStr + "][" + std::to_string(__LINE__) + "]";\
-logObj.debug(fileFunStr, "huangshangbin");\
+logObj.debug(fileFunStr, logStr);\
 \
 }
 
