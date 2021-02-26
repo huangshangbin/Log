@@ -1,26 +1,38 @@
 #include <log/ConsoleLog.hpp>
+#include <log/FileLog.hpp>
 
 
 
-int main()
+
+void consoleLogTest()
 {
-	cout << "src log" << endl;
-
 	ConsoleLog consoleLog;
 
 	consoleLog.setLevel(DEBUG);
 
 	DEBUG_LOG(consoleLog, "huangshangbin debug");
 
-	
-	cout << "----------------"<<endl;
+
+	cout << "----------------" << endl;
 	consoleLog.info("huangshangbin info");
-	
-	cout << "----------------"<<endl;
+
+	cout << "----------------" << endl;
 	consoleLog.waring("huangshangbin waring");
 
 	cout << "----------------" << endl;
 	consoleLog.error("huangshangbin error");
+}
+
+
+int main()
+{
+	FileLog fileLog;
+
+
+	LogDateTime curDateTime;
+	curDateTime.setUseCurTime();
+
+	cout << curDateTime.toString() << endl;
 
 	int a;
 	cin >> a;
