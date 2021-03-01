@@ -17,6 +17,8 @@ public:
 public:
 	void debug(string funInfo, string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
 		if (m_logLevel > LogLevel::DEBUG)
 		{
 			return;
@@ -25,13 +27,15 @@ public:
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 
 		logStr = "[DEBUG] " + funInfo + " " + logStr;
-		detailOutLogStr(logStr);
+		cout << getDetailLogStr(logStr) << endl;
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY);
 	}
 
 	void info(string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
 		if (m_logLevel > LogLevel::INFO)
 		{
 			return;
@@ -40,13 +44,15 @@ public:
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
 		logStr = "[INFO] " + logStr;
-		detailOutLogStr(logStr);
+		cout << getDetailLogStr(logStr) << endl;
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY);
 	}
 
 	void waring(string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
 		if (m_logLevel > LogLevel::WARING)
 		{
 			return;
@@ -55,17 +61,19 @@ public:
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 
 		logStr = "[WARING] " + logStr;
-		detailOutLogStr(logStr);
+		cout << getDetailLogStr(logStr) << endl;
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY);
 	}
 
 	void error(string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
 
 		logStr = "[ERROR] " + logStr;
-		detailOutLogStr(logStr);
+		cout << getDetailLogStr(logStr) << endl;
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY);
 	}

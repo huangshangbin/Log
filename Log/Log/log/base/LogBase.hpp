@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include <string>
 #include <deque>
 
@@ -33,6 +34,7 @@ class LogBase
 {
 protected:
 	LogLevel m_logLevel;
+	mutex m_mutex;
 
 public:
 	LogBase() { m_logLevel = LogLevel::DEBUG; }
@@ -48,9 +50,9 @@ public:
 public:
 	void setLevel(LogLevel logLevel) { m_logLevel = logLevel; }
 
-	void detailOutLogStr(string logStr)
+	string getDetailLogStr(string logStr)
 	{
-		cout << getDateTimeStr() + " " + logStr << endl;
+		return getDateTimeStr() + " " + logStr;
 	}
 
 //getDetailLogStr
