@@ -8,6 +8,7 @@ void simpleFileLog()
 {
 	FileLog fileLog;
 	fileLog.setWorkDir("E:\\tempDir");
+	fileLog.setLevel(LogLevel::DEBUG);
 
 	for (int i = 0; i < 1000; i++)
 	{

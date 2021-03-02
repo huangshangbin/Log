@@ -80,7 +80,7 @@ public:
 	{
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		if (m_logLevel > LogLevel::INFO)
+		if (m_logLevel > LogLevel::WARING)
 		{
 			return;
 		}
@@ -92,7 +92,7 @@ public:
 	{
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		if (m_logLevel > LogLevel::INFO)
+		if (m_logLevel > LogLevel::ERROR_)
 		{
 			return;
 		}
