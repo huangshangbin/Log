@@ -27,7 +27,7 @@ void simpleConsoleLog()
 //  multiThreadConsoleLog  -------------------------
 ConsoleLog consoleLog;
 
-void debugThreadFun()
+void debugConsoleLogThreadFun()
 {
 	while (true)
 	{
@@ -35,7 +35,7 @@ void debugThreadFun()
 	}
 }
 
-void infoThreadFun()
+void infoConsoleLogThreadFun()
 {
 	while (true)
 	{
@@ -43,7 +43,7 @@ void infoThreadFun()
 	}
 }
 
-void waringThreadFun()
+void waringConsoleLogThreadFun()
 {
 	while (true)
 	{
@@ -51,7 +51,7 @@ void waringThreadFun()
 	}
 }
 
-void errorThreadFun()
+void errorConsoleLogThreadFun()
 {
 	while (true)
 	{
@@ -62,10 +62,10 @@ void errorThreadFun()
 
 void multiThreadConsoleLog()
 {
-	thread debugThread(debugThreadFun);
-	thread infoThread(infoThreadFun);
-	thread waringThread(waringThreadFun);
-	thread errorThread(errorThreadFun);
+	thread debugThread(debugConsoleLogThreadFun);
+	thread infoThread(infoConsoleLogThreadFun);
+	thread waringThread(waringConsoleLogThreadFun);
+	thread errorThread(errorConsoleLogThreadFun);
 
 	debugThread.join();
 	infoThread.join();
