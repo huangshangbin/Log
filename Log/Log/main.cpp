@@ -1,42 +1,21 @@
-#include <log/ConsoleLog.hpp>
-#include <log/FileLog.hpp>
+#include <example/ConsoleLogExample.hpp>
+#include <example/FileLogExample.hpp>
 
 
 
 
-void consoleLogTest()
-{
-	ConsoleLog consoleLog;
 
-	consoleLog.setLevel(DEBUG);
-
-	DEBUG_LOG(consoleLog, "huangshangbin debug");
-
-
-	cout << "----------------" << endl;
-	consoleLog.info("huangshangbin info");
-
-	cout << "----------------" << endl;
-	consoleLog.waring("huangshangbin waring");
-
-	cout << "----------------" << endl;
-	consoleLog.error("huangshangbin error");
-}
 
 
 int main()
 {
-	//consoleLogTest();
+	//multiThreadConsoleLog();
 
-	FileLog fileLog;
-	fileLog.setWorkDir("E:\\tempDir");
+	
+	simpleFileLog();
 
-	for(int i = 0; i < 100000; i++)
-	{
-		fileLog.info("huangshangbin ----  " + std::to_string(i));
-	}
-	fileLog.info("huang");
 
+	cout << "complete" << endl;
 	int a;
 	cin >> a;
 

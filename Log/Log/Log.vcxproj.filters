@@ -47,5 +47,11 @@
     <ClInclude Include="log\utils\LogFileUtils.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="example\ConsoleLogExample.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="example\FileLogExample.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

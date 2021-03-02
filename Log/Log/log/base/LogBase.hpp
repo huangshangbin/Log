@@ -36,10 +36,10 @@ protected:
 	LogLevel m_logLevel;
 	mutex m_mutex;
 
-	string m_workDir;
+	
 
 public:
-	LogBase() { m_logLevel = LogLevel::DEBUG; m_workDir = ""; }
+	LogBase() { m_logLevel = LogLevel::DEBUG;}
 	~LogBase() {}
 
 

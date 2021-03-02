@@ -32,6 +32,26 @@ public:
 		return result;
 	}
 
+	static string getPreviousLayerPath(string path)
+	{
+		int index;
+		for (int i = path.length(); i > 0; i--)
+		{
+			if (i == 0)
+			{
+				return path;
+			}
+
+			if (path[i] == '\\')
+			{
+				index = i;
+				break;
+			}
+		}
+
+		return LogStringUtils::getStringUsePos(path, 0, index - 1);
+	}
+
 	static deque<string> getPathFirstLayerFilePath(string srcPath)
 	{
 		deque<string> filePathList;

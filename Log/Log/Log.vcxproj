@@ -115,6 +115,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="example\ConsoleLogExample.hpp" />
+    <ClInclude Include="example\FileLogExample.hpp" />
     <ClInclude Include="log\base\LogByteStreamFile.hpp" />
     <ClInclude Include="log\base\LogTextFile.hpp" />
     <ClInclude Include="log\ConsoleLog.hpp" />

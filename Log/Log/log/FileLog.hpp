@@ -11,16 +11,16 @@
 class FileLog : public LogBase
 {
 public:
-	FileLog() {}
-
+	FileLog() { m_workDir = "";}
 	~FileLog() {}
 
-public:
+private:
 	LogTextFile m_curLogFile;
 	LogTextFile m_fileIndexTimeFile;
 
+	string m_workDir;
 	int m_curFileIndex;
-	string m_lastCreateDirPath;
+	string m_newestLogDirPath;
 
 public:
 	void setWorkDir(string workDir)
@@ -30,42 +30,38 @@ public:
 		LogDateTime curTime;
 		curTime.setUseCurTime();
 
-		string dirPath = workDir + "\\" + curTime.getYear() + "\\" + curTime.getMonth() + "\\" + curTime.getDay();
-		LogFileUtils::recursiveCreateDir(dirPath);
+		string curNewestLogDir = getNewestLogDir(curTime);
 
-		m_lastCreateDirPath = dirPath;
-
-		deque<string> indexFileList = LogFileUtils::getPathFirstLayerFilePath(dirPath);
+		deque<string> indexFileList = LogFileUtils::getPathFirstLayerFilePath(curNewestLogDir);
 		if (indexFileList.size() == 0)
 		{
-			m_curLogFile.reload(dirPath + "\\1000000.txt");
-			m_curLogFile.save();
-
-			m_fileIndexTimeFile.reload(dirPath + "\\indexTime.txt");
-			m_fileIndexTimeFile.push("1000000 " + curTime.getHour() + ":" + curTime.getMinute() + ":" + curTime.getSecond());
-			m_fileIndexTimeFile.save();
-
-			setCurFileIndex();
+			createNewestLogDir(curNewestLogDir, curTime.toString());
 		}
 		else
 		{
-			string curLogFileStr = getBiggestStr(indexFileList);
-			m_curLogFile.reload(curLogFileStr);
+			string curLogFilePath = getBiggestStr(indexFileList);
+			m_curLogFile.reload(curLogFilePath);
 
-			m_fileIndexTimeFile.reload(dirPath + "\\indexTime.txt");
+			m_fileIndexTimeFile.reload(curNewestLogDir + "\\indexTime.txt");
 
-			setCurFileIndex();
-		}
+			string curLogFileName = LogFileUtils::getFileOrDirName(curLogFilePath);
+			m_curFileIndex = atoi(LogStringUtils::splitStringGetOneStr(curLogFileName, ".", 0).c_str());
+
+			m_newestLogDirPath = curNewestLogDir;
+		}	
 	}
-
 
 public:
 	void debug(string funInfo, string logStr)
 	{
-		LogDateTime curTime;
-		curTime.setUseCurTime();
+		lock_guard<mutex> lockGuard(m_mutex);
 
+		if (m_logLevel > LogLevel::DEBUG)
+		{
+			return;
+		}
 
+		addLog("[DEBUG] " + funInfo + " " + logStr);
 	}
 
 	void info(string logStr)
@@ -77,58 +73,46 @@ public:
 			return;
 		}
 
-		string detailLogStr = getDetailLogStr("[INFO] " + logStr);
-
-		LogDateTime curTime;
-		curTime.setUseCurTime();
-
-		string dirPath = m_workDir + "\\" + curTime.getYear() + "\\" + curTime.getMonth() + "\\" + curTime.getDay();
-		if (dirPath != m_lastCreateDirPath)
-		{
-			LogFileUtils::recursiveCreateDir(dirPath);
-
-			m_curLogFile.reload(dirPath + "\\1000000.txt");
-			m_curLogFile.save();
-
-			m_fileIndexTimeFile.reload(dirPath + "\\indexTime.txt");
-			m_fileIndexTimeFile.push("1000000 " + curTime.getHour() + ":" + curTime.getMinute() + ":" + curTime.getSecond());
-			m_fileIndexTimeFile.save();
-
-			setCurFileIndex();
-
-			m_lastCreateDirPath = dirPath;
-		}
-
-		
-		if (LogFileUtils::getFileSize(m_curLogFile.getFilePath()) < 11 * 1024)
-		{
-			m_curLogFile.push(detailLogStr);
-			m_curLogFile.save();
-		}
-		else
-		{
-			m_curLogFile.reload(m_lastCreateDirPath + "\\" + std::to_string(m_curFileIndex + 1) + ".txt");
-			m_curLogFile.push(detailLogStr);
-			m_curLogFile.save();
-
-			m_fileIndexTimeFile.push(std::to_string(m_curFileIndex + 1) + " " + curTime.getHour() + ":" + curTime.getMinute() + ":" + curTime.getSecond());
-			m_fileIndexTimeFile.save();
-
-			setCurFileIndex();
-		}
+		addLog("[INFO] " + logStr);
 	}
 
 	void waring(string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
 
+		if (m_logLevel > LogLevel::INFO)
+		{
+			return;
+		}
+
+		addLog("[WARING] " + logStr);
 	}
 
 	void error(string logStr)
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
 
+		if (m_logLevel > LogLevel::INFO)
+		{
+			return;
+		}
+
+		addLog("[ERROR] " + logStr);
+	}
+
+private:
+	string getExeFileDir()
+	{
+		char pathArray[MAX_PATH] = { 0 };
+		GetModuleFileName(NULL, pathArray, MAX_PATH);
+
+		string strPath = pathArray;
+
+		return LogFileUtils::getPreviousLayerPath(strPath);
 	}
 
 
+//setWorkDir
 private:
 	string getBiggestStr(deque<string>& strList)
 	{
@@ -149,9 +133,62 @@ private:
 		return biggestStr;
 	}
 
-	void setCurFileIndex()
+	string getNewestLogDir(LogDateTime& curTime)
 	{
-		string fileName = LogFileUtils::getFileOrDirName(m_curLogFile.getFilePath());
-		m_curFileIndex = atoi(LogStringUtils::splitStringGetOneStr(fileName, ".", 0).c_str());
+		return m_workDir + "\\" + curTime.getYear() + "\\" + curTime.getMonth() + "\\" + curTime.getDay();
+	}
+
+	void createNewestLogDir(string dirPath, string curTimeStr)
+	{
+		LogFileUtils::recursiveCreateDir(dirPath);
+
+		m_curLogFile.reload(dirPath + "\\1000000.txt");
+		m_curLogFile.save();
+
+		m_fileIndexTimeFile.reload(dirPath + "\\indexTime.txt");
+		m_fileIndexTimeFile.push("1000000=" + curTimeStr);
+		m_fileIndexTimeFile.save();
+
+		m_curFileIndex = 1000000;
+
+		m_newestLogDirPath = dirPath;
+	}
+
+//debug
+private:
+	void addLog(string baseLogStr)
+	{
+		if (m_workDir == "")
+		{
+			setWorkDir(getExeFileDir());
+		}
+
+		LogDateTime curTime;
+		curTime.setUseCurTime();
+
+		string curNewestLogDir = getNewestLogDir(curTime);
+		if (curNewestLogDir != m_newestLogDirPath)
+		{
+			createNewestLogDir(curNewestLogDir, curTime.toString());
+		}
+
+
+		string detailLogStr = getDetailLogStr(baseLogStr);
+		if (LogFileUtils::getFileSize(m_curLogFile.getFilePath()) < 11 * 1024)
+		{
+			m_curLogFile.push(detailLogStr);
+			m_curLogFile.save();
+		}
+		else
+		{
+			m_curLogFile.reload(m_newestLogDirPath + "\\" + std::to_string(m_curFileIndex + 1) + ".txt");
+			m_curLogFile.push(detailLogStr);
+			m_curLogFile.save();
+
+			m_fileIndexTimeFile.push(std::to_string(m_curFileIndex + 1) + "=" + curTime.toString());
+			m_fileIndexTimeFile.save();
+
+			m_curFileIndex = m_curFileIndex + 1;
+		}
 	}
 };
