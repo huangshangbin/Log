@@ -12,19 +12,24 @@ private:
 
 	thread m_thread;
 	bool m_isStopThread;
+	int m_writeSpaceTime;
 
 	queue<string*> m_logBufferQueue;
-	unsigned int m_logBufferSize;
+
+	LogTextFile m_curLogFile;
+	LogTextFile m_fileIndexTimeFile;
+	int m_curFileIndex;
+	string m_newestLogDirPath;
 
 public:
 	QuickFileLog() 
 	{ 
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		m_isStopThread = false;
 		m_workDir = "";
 
-		m_logBufferSize = 0;
+		m_isStopThread = false;
+		m_writeSpaceTime = 1000;
 
 		thread tempThread([this]() {
 			while (true)
@@ -32,45 +37,31 @@ public:
 				{
 					lock_guard<mutex> lockGuard(m_mutex);
 
-					if (m_isStopThread)
+					unsigned int curLogFileSize = 1024;
+
+					while (m_logBufferQueue.empty() == false)
 					{
-						while (m_logBufferQueue.empty() == false)
+						string* logStr = m_logBufferQueue.front();
+						m_logBufferQueue.pop();
+
+						//写入文件
+						curLogFileSize = curLogFileSize + logStr->size();
+						if (curLogFileSize >= 11 * 1024)
 						{
-							string* logStr = m_logBufferQueue.front();
-							m_logBufferQueue.pop();
-
-							delete logStr;
+							//创建新文件
+							curLogFileSize = 0;
 						}
-						
 
-						cout << "thread stop...... " << endl;
-
-						m_logBufferSize = 0;
-
-						return;
+						delete logStr;
 					}
 
-					if (m_logBufferSize >= 15 * 1024)
+					if (m_isStopThread)
 					{
-						while (m_logBufferQueue.empty() == false)
-						{
-							string* logStr = m_logBufferQueue.front();
-							m_logBufferQueue.pop();
-
-							delete logStr;
-						}
-						
-
-						cout << "clear log queue m_logBufferSize = " << m_logBufferSize <<" ---- "<<m_logBufferSize / 1024
-							<<" * 1024"<< endl;
-
-						m_logBufferSize = 0;
+						return;
 					}
 				}
 
-				Sleep(1000);
-
-				//cout << "thread working...........  m_logBufferSize = "<< m_logBufferSize << "----  "<< m_logBufferSize/1024 << " * 1024" << endl;
+				Sleep(m_writeSpaceTime);
 			}
 		});
 
@@ -83,7 +74,19 @@ public:
 			lock_guard<mutex> lockGuard(m_mutex);
 			m_isStopThread = true;
 		}
+
 		m_thread.join();
+	}
+
+public:
+	void setWorkDir(string workDir)
+	{
+
+	}
+
+	void setWriteSpaceTime(int writeSpaceTime)//millisecond
+	{
+		m_writeSpaceTime = writeSpaceTime;
 	}
 
 public:
@@ -93,7 +96,6 @@ public:
 
 		string* tempLogStr = new string(logStr);
 		m_logBufferQueue.push(tempLogStr);
-		m_logBufferSize = m_logBufferSize + logStr.size();
 	}
 
 	void info(string logStr)
@@ -102,7 +104,6 @@ public:
 
 		string* tempLogStr = new string(logStr);
 		m_logBufferQueue.push(tempLogStr);
-		m_logBufferSize = m_logBufferSize + logStr.size();
 	}
 
 	void waring(string logStr)
@@ -111,7 +112,6 @@ public:
 
 		string* tempLogStr = new string(logStr);
 		m_logBufferQueue.push(tempLogStr);
-		m_logBufferSize = m_logBufferSize + logStr.size();
 	}
 
 	void error(string logStr)
@@ -120,7 +120,6 @@ public:
 
 		string* tempLogStr = new string(logStr);
 		m_logBufferQueue.push(tempLogStr);
-		m_logBufferSize = m_logBufferSize + logStr.size();
 	}
 
 private:

@@ -50,17 +50,17 @@ public:
 	virtual void error(string logStr) = 0;
 
 public:
-	void setLevel(LogLevel logLevel) { m_logLevel = logLevel; }
+	void setLevel(LogLevel logLevel)
+	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
+		m_logLevel = logLevel;
+	}
 
 	string getDetailLogStr(string logStr)
 	{
 		return getDateTimeStr() + " " + logStr;
 	}
-
-
-//file log
-public:
-	
 
 
 //getDetailLogStr
