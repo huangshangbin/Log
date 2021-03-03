@@ -53,5 +53,8 @@
     <ClInclude Include="example\FileLogExample.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="log\QuickFileLog.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

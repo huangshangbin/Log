@@ -10,10 +10,6 @@
 
 class FileLog : public LogBase
 {
-public:
-	FileLog() { m_workDir = "";}
-	~FileLog() {}
-
 private:
 	LogTextFile m_curLogFile;
 	LogTextFile m_fileIndexTimeFile;
@@ -21,6 +17,11 @@ private:
 	string m_workDir;
 	int m_curFileIndex;
 	string m_newestLogDirPath;
+
+public:
+	FileLog() { m_workDir = "";}
+	~FileLog() {}
+
 
 public:
 	void setWorkDir(string workDir)

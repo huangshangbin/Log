@@ -10,15 +10,23 @@ void simpleFileLog()
 	fileLog.setWorkDir("E:\\tempDir");
 	fileLog.setLevel(LogLevel::DEBUG);
 
-	for (int i = 0; i < 1000; i++)
+	LogDateTime curTime;
+
+	int i = 0;
+	while (true)
 	{
 		DEBUG_LOG(fileLog, "huangshangbin ----  " + std::to_string(i));
 		fileLog.info("huangshangbin ----  " + std::to_string(i));
 		fileLog.waring("huangshangbin ----  " + std::to_string(i));
 		fileLog.error("huangshangbin ----  " + std::to_string(i));
 
-		cout << i << endl;
+		curTime.setUseCurTime();
+		cout << curTime.toString() << endl;
+
+		Sleep(1000 * 60);
+		i++;
 	}
+
 }
 
 //  multiThreadFileLog  -------------------------
