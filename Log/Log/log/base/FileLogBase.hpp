@@ -1,11 +1,25 @@
 #pragma once
 
-#include <iostream>
+#include "LogDateTime.hpp"
+#include "LogBase.hpp"
 
-using namespace std;
 
-
-class FileLogBase
+class FileLogBase : public LogBase
 {
+protected:
+	string m_workDir;
 
+public:
+	FileLogBase() : LogBase()
+	{
+		m_workDir = "";
+	}
+
+	~FileLogBase() {}
+
+public:
+	string getNewestLogDir(LogDateTime& curTime)
+	{
+		return m_workDir + "\\" + curTime.getYear() + "\\" + curTime.getMonth() + "\\" + curTime.getDay();
+	}
 };

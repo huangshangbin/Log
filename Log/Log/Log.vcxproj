@@ -125,7 +125,7 @@
     <ClInclude Include="log\base\LogLevel.hpp" />
     <ClInclude Include="log\FileLog.hpp" />
     <ClInclude Include="log\QuickFileLog.hpp" />
-    <ClInclude Include="log\utils\LogDateTime.hpp" />
+    <ClInclude Include="log\base\LogDateTime.hpp" />
     <ClInclude Include="log\utils\LogFileUtils.hpp" />
     <ClInclude Include="log\utils\LogStringUtils.hpp" />
   </ItemGroup>

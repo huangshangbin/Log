@@ -2,7 +2,7 @@
 
 #include "base/LogBase.hpp"
 #include "base/LogTextFile.hpp"
-#include "utils/LogDateTime.hpp"
+#include "base/LogDateTime.hpp"
 #include "utils/LogFileUtils.hpp"
 #include "utils/LogStringUtils.hpp"
 

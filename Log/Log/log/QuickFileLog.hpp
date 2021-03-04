@@ -1,15 +1,13 @@
 #pragma once
 
-#include "base/LogBase.hpp"
+#include "base/FileLogBase.hpp"
 
 #include <thread>
 #include <queue>
 
-class QuickFileLog : public LogBase
+class QuickFileLog : public FileLogBase
 {
 private:
-	string m_workDir;
-
 	thread m_thread;
 	bool m_isStopThread;
 	int m_writeSpaceTime;
@@ -26,7 +24,7 @@ public:
 	{ 
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		m_workDir = "";
+		
 
 		m_isStopThread = false;
 		m_writeSpaceTime = 1000;
@@ -81,7 +79,30 @@ public:
 public:
 	void setWorkDir(string workDir)
 	{
+		m_workDir = workDir;
 
+		LogDateTime curTime;
+		curTime.setUseCurTime();
+
+		string curNewestLogDir = getNewestLogDir(curTime);
+
+		deque<string> indexFileList = LogFileUtils::getPathFirstLayerFilePath(curNewestLogDir);
+// 		if (indexFileList.size() == 0)
+// 		{
+// 			createNewestLogDir(curNewestLogDir, curTime.toString());
+// 		}
+// 		else
+// 		{
+// 			string curLogFilePath = getBiggestStr(indexFileList);
+// 			m_curLogFile.reload(curLogFilePath);
+// 
+// 			m_fileIndexTimeFile.reload(curNewestLogDir + "\\indexTime.txt");
+// 
+// 			string curLogFileName = LogFileUtils::getFileOrDirName(curLogFilePath);
+// 			m_curFileIndex = atoi(LogStringUtils::splitStringGetOneStr(curLogFileName, ".", 0).c_str());
+// 
+// 			m_newestLogDirPath = curNewestLogDir;
+// 		}
 	}
 
 	void setWriteSpaceTime(int writeSpaceTime)//millisecond

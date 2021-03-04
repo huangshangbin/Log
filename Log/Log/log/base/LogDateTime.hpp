@@ -2,7 +2,7 @@
 
 #include<time.h>
 
-#include "LogStringUtils.hpp"
+#include "../utils/LogStringUtils.hpp"
 
 class LogDateTime
 {
