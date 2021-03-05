@@ -29,7 +29,7 @@ ConsoleLog consoleLog;
 
 void debugConsoleLogThreadFun()
 {
-	while (true)
+	for(int i = 0; i < 100000; i++)
 	{
 		DEBUG_LOG(consoleLog, "huangshangbin debug");
 	}
@@ -37,7 +37,7 @@ void debugConsoleLogThreadFun()
 
 void infoConsoleLogThreadFun()
 {
-	while (true)
+	for (int i = 0; i < 100000; i++)
 	{
 		consoleLog.info("huangshangbin info");
 	}
@@ -45,7 +45,7 @@ void infoConsoleLogThreadFun()
 
 void waringConsoleLogThreadFun()
 {
-	while (true)
+	for (int i = 0; i < 100000; i++)
 	{
 		consoleLog.waring("huangshangbin waring");
 	}
@@ -53,7 +53,7 @@ void waringConsoleLogThreadFun()
 
 void errorConsoleLogThreadFun()
 {
-	while (true)
+	for (int i = 0; i < 100000; i++)
 	{
 		consoleLog.error("huangshangbin error");
 	}

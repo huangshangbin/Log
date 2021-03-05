@@ -102,6 +102,8 @@ public:
 
 	void setWriteSpaceTime(int writeSpaceTime)//millisecond
 	{
+		lock_guard<mutex> lockGuard(m_mutex);
+
 		m_writeSpaceTime = writeSpaceTime;
 	}
 
