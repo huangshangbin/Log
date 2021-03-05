@@ -110,7 +110,7 @@ public:
 	{
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		string* tempLogStr = new string(logStr);
+		string* tempLogStr = new string(getDetailLogStr("[DEBUG] " + funInfo + " " + logStr));
 		m_logBufferQueue.push(tempLogStr);
 	}
 
@@ -126,7 +126,7 @@ public:
 	{
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		string* tempLogStr = new string(logStr);
+		string* tempLogStr = new string(getDetailLogStr("[WARING] " + logStr));
 		m_logBufferQueue.push(tempLogStr);
 	}
 
@@ -134,7 +134,7 @@ public:
 	{
 		lock_guard<mutex> lockGuard(m_mutex);
 
-		string* tempLogStr = new string(logStr);
+		string* tempLogStr = new string(getDetailLogStr("[ERROR] " + logStr));
 		m_logBufferQueue.push(tempLogStr);
 	}
 
