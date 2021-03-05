@@ -2,6 +2,8 @@
 
 #include "LogDateTime.hpp"
 #include "LogBase.hpp"
+#include "LogTextFile.hpp"
+#include "../utils/LogFileUtils.hpp"
 
 
 class FileLogBase : public LogBase

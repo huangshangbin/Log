@@ -4,22 +4,9 @@
 
 
 
-
-
-
-
-
-
 int main()
 {
-	//multiThreadConsoleLog();
-
-	
-	//multiThreadFileLog();
-
-	simpleQuickFileLog();
-
-	
+	multiThreadQuickFileLog();
 
 	cout << "complete" << endl;
 	int a;
