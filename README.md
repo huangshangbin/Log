@@ -14,5 +14,5 @@ ConsoleLog: 控制台的日志。
 	  4  https://www.jianshu.com/p/52b274e50371                        毫秒级时间  
 
 
-其他方案:
+其他方案:  
       1 QuickFileLog  ERROR等级日志立马写入文件，保证重要日志不丢失。 会造成时间上日志不连续。并不可取。
