@@ -17,8 +17,10 @@ int main()
 	//multiThreadFileLog();
 
 	QuickFileLog* quickFileLog = new QuickFileLog();
+	quickFileLog->setWorkDir("E:\\tempDir");
 
-	for (int i = 0; i < 1000000; i++)
+	unsigned int i = 0;
+	while (true)
 	{
 		quickFileLog->info("huangshangbinzxc");
 
@@ -26,6 +28,9 @@ int main()
 		{
 			cout << "添加日志数 " << i << endl;
 		}
+		i++;
+
+		Sleep(1000);
 	}
 
 	delete quickFileLog;
