@@ -16,3 +16,9 @@ ConsoleLog: 控制台的日志。
 
 其他方案:  
       1 QuickFileLog  ERROR等级日志立马写入文件，保证重要日志不丢失。 会造成时间上日志不连续。并不可取。
+	  
+	  
+	 
+	 
+配置:
+     1  配置属性 c/c++ 预处理器   预处理器定义     _CRT_SECURE_NO_WARNINGS
