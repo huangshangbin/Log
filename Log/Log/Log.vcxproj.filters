@@ -38,5 +38,14 @@
     <ClInclude Include="log\utils\LogDateTime.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="log\base\LogByteStreamFile.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\base\LogTextFile.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\utils\LogFileUtils.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

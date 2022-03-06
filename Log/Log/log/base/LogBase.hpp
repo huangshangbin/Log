@@ -36,8 +36,10 @@ protected:
 	LogLevel m_logLevel;
 	mutex m_mutex;
 
+	string m_workDir;
+
 public:
-	LogBase() { m_logLevel = LogLevel::DEBUG; }
+	LogBase() { m_logLevel = LogLevel::DEBUG; m_workDir = ""; }
 	~LogBase() {}
 
 
@@ -54,6 +56,12 @@ public:
 	{
 		return getDateTimeStr() + " " + logStr;
 	}
+
+
+//file log
+public:
+	
+
 
 //getDetailLogStr
 private:

@@ -26,13 +26,16 @@ void consoleLogTest()
 
 int main()
 {
+	//consoleLogTest();
+
 	FileLog fileLog;
+	fileLog.setWorkDir("E:\\tempDir");
 
-
-	LogDateTime curDateTime;
-	curDateTime.setUseCurTime();
-
-	cout << curDateTime.toString() << endl;
+	for(int i = 0; i < 100000; i++)
+	{
+		fileLog.info("huangshangbin ----  " + std::to_string(i));
+	}
+	fileLog.info("huang");
 
 	int a;
 	cin >> a;

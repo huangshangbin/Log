@@ -90,4 +90,17 @@ public:
 	{
 		return src.substr(startPos, endPos - startPos + 1);
 	}
+
+	static bool isExistStringInString(string srcStr, string existStr)
+	{
+		deque<string> srcStrList = splitString(srcStr, existStr);
+		if (srcStrList.size() < 2)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 };

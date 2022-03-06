@@ -85,32 +85,32 @@ public:
 
 	string getYear()
 	{
-		std::to_string(1900 + m_time.tm_year);
+		return std::to_string(1900 + m_time.tm_year);
 	}
 
 	string getMonth()
 	{
-		std::to_string(1 + m_time.tm_mon);
+		return std::to_string(1 + m_time.tm_mon);
 	}
 
 	string getDay()
 	{
-		std::to_string(m_time.tm_mday);
+		return std::to_string(m_time.tm_mday);
 	}
 
 	string getHour()
 	{
-		std::to_string(m_time.tm_hour);
+		return std::to_string(m_time.tm_hour);
 	}
 
 	string getMinute()
 	{
-		std::to_string(m_time.tm_min);
+		return std::to_string(m_time.tm_min);
 	}
 
 	string getSecond()
 	{
-		std::to_string(m_time.tm_sec);
+		return std::to_string(m_time.tm_sec);
 	}
 
 public:
